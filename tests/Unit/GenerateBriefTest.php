@@ -35,9 +35,9 @@ test('includes niche and language in prompt', function (): void {
         platform: 'Instagram',
     );
 
-    BriefGenerator::assertPrompted(fn ($prompt): bool => str_contains($prompt->prompt, 'Finance')
-        && str_contains($prompt->prompt, 'English')
-        && str_contains($prompt->prompt, 'Instagram'));
+    BriefGenerator::assertPrompted(fn ($prompt): bool => str_contains((string) $prompt->prompt, 'Finance')
+        && str_contains((string) $prompt->prompt, 'English')
+        && str_contains((string) $prompt->prompt, 'Instagram'));
 });
 
 test('returns empty array when agent returns no angles', function (): void {

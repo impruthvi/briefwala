@@ -101,5 +101,5 @@ test('two subscribers in same niche share one gpt call', function (): void {
 
     $this->artisan('brief:send')->assertSuccessful();
 
-    BriefGenerator::assertPrompted(fn ($prompt): bool => str_contains($prompt->prompt, 'Tech'));
+    BriefGenerator::assertPrompted(fn ($prompt): bool => str_contains((string) $prompt->prompt, 'Tech'));
 });

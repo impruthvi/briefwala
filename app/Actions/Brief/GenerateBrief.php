@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Brief;
 
 use App\Ai\Agents\BriefGenerator;
+use Laravel\Ai\Responses\StructuredAgentResponse;
 
 final readonly class GenerateBrief
 {
@@ -39,7 +40,9 @@ final readonly class GenerateBrief
         $result = (new BriefGenerator)->prompt($prompt);
 
         /** @var array<int, array{hook: string, why: string}> $angles */
-        $angles = $result['angles'] ?? [];
+        $angles = $result instanceof StructuredAgentResponse
+            ? ($result->toArray()['angles'] ?? [])
+            : [];
 
         return $angles;
     }
