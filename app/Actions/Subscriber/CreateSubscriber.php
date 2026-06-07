@@ -7,6 +7,7 @@ namespace App\Actions\Subscriber;
 use App\Mail\ConfirmSubscription;
 use App\Models\Subscriber;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 
 final readonly class CreateSubscriber
@@ -19,7 +20,7 @@ final readonly class CreateSubscriber
             'platform' => $data['platform'],
             'language' => $data['language'],
             'whatsapp_number' => $data['whatsapp_number'] ?? null,
-            'referrer_id' => $data['referrer_id'] ?? null,
+            'referrer_id' => $data['referrer_id'] ?? Request::cookie('referrer_id'),
             'confirm_token' => Str::uuid(),
             'unsubscribe_token' => Str::uuid(),
         ]);
