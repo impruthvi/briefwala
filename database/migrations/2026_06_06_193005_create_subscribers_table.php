@@ -29,7 +29,9 @@ return new class extends Migration
             $table->timestamps();
 
             $table->index(['confirmed_at', 'unsubscribed_at']);
+        });
 
+        Schema::table('subscribers', function (Blueprint $table): void {
             $table->foreign('referrer_id')
                 ->references('id')
                 ->on('subscribers')
