@@ -8,7 +8,7 @@ function validWebhookHeaders(string $body, string $secret = 'whsec_dGVzdHNlY3Jld
 {
     $svixId = 'msg_test_'.uniqid();
     $svixTimestamp = (string) time();
-    $toSign = "{$svixId}.{$svixTimestamp}.{$body}";
+    $toSign = sprintf('%s.%s.%s', $svixId, $svixTimestamp, $body);
     $secretBytes = base64_decode(str_replace('whsec_', '', $secret));
     $signature = 'v1,'.base64_encode(hash_hmac('sha256', $toSign, $secretBytes, true));
 

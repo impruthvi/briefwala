@@ -11,13 +11,11 @@ final readonly class ConfirmSubscriber
 {
     public function handle(string $token): Subscriber
     {
-        $subscriber = Subscriber::where('confirm_token', $token)
+        $subscriber = Subscriber::query()->where('confirm_token', $token)
             ->whereNull('confirmed_at')
             ->first();
 
-        if (! $subscriber) {
-            throw new NotFoundHttpException;
-        }
+        throw_unless($subscriber, NotFoundHttpException::class);
 
         $subscriber->update([
             'confirmed_at' => now(),

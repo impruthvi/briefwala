@@ -15,6 +15,6 @@ final class UnsubscribeSubscriberController extends Controller
     {
         $this->unsubscribeSubscriber->handle($token);
 
-        return redirect()->route('unsubscribed');
+        return to_route('unsubscribed');
     }
 }

@@ -38,9 +38,7 @@ test('confirmation email is sent after subscription', function (): void {
         'language' => 'Hindi',
     ]);
 
-    Mail::assertQueued(ConfirmSubscription::class, function (ConfirmSubscription $mail): bool {
-        return $mail->hasTo('creator@example.com');
-    });
+    Mail::assertQueued(ConfirmSubscription::class, fn (ConfirmSubscription $mail): bool => $mail->hasTo('creator@example.com'));
 });
 
 test('subscriber is created with confirm_token and unsubscribe_token', function (): void {
@@ -51,7 +49,7 @@ test('subscriber is created with confirm_token and unsubscribe_token', function 
         'language' => 'Hindi',
     ]);
 
-    $subscriber = Subscriber::where('email', 'creator@example.com')->first();
+    $subscriber = Subscriber::query()->where('email', 'creator@example.com')->first();
 
     expect($subscriber->confirm_token)->not->toBeNull();
     expect($subscriber->unsubscribe_token)->not->toBeNull();
@@ -183,7 +181,7 @@ test('language must be from allowed list', function (): void {
 test('subscribe endpoint is rate limited', function (): void {
     foreach (range(1, 5) as $i) {
         $this->post(route('subscribe'), [
-            'email' => "creator{$i}@example.com",
+            'email' => sprintf('creator%s@example.com', $i),
             'niche' => 'Tech',
             'platform' => 'YouTube',
             'language' => 'Hindi',

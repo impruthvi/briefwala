@@ -15,6 +15,6 @@ final class ConfirmSubscriberController extends Controller
     {
         $this->confirmSubscriber->handle($token);
 
-        return redirect()->route('confirmed');
+        return to_route('confirmed');
     }
 }

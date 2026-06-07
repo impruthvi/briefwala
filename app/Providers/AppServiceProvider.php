@@ -40,9 +40,7 @@ final class AppServiceProvider extends ServiceProvider
     {
         Date::use(CarbonImmutable::class);
 
-        RateLimiter::for('subscribe', function (Request $request) {
-            return Limit::perMinute(5)->by($request->ip());
-        });
+        RateLimiter::for('subscribe', fn (Request $request) => Limit::perMinute(5)->by($request->ip()));
 
         DB::prohibitDestructiveCommands(
             app()->isProduction(),

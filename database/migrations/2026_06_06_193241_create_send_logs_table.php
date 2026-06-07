@@ -11,7 +11,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('send_logs', function (Blueprint $table) {
+        Schema::create('send_logs', function (Blueprint $table): void {
             $table->uuid('id')->primary();
             $table->uuid('subscriber_id');
             $table->date('week_of');

@@ -11,13 +11,11 @@ final readonly class UnsubscribeSubscriber
 {
     public function handle(string $token): Subscriber
     {
-        $subscriber = Subscriber::where('unsubscribe_token', $token)
+        $subscriber = Subscriber::query()->where('unsubscribe_token', $token)
             ->whereNull('unsubscribed_at')
             ->first();
 
-        if (! $subscriber) {
-            throw new NotFoundHttpException;
-        }
+        throw_unless($subscriber, NotFoundHttpException::class);
 
         $subscriber->update([
             'unsubscribed_at' => now(),

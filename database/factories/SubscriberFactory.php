@@ -35,7 +35,7 @@ final class SubscriberFactory extends Factory
 
     public function confirmed(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn (array $attributes): array => [
             'confirm_token' => null,
             'confirmed_at' => now(),
         ]);
@@ -43,7 +43,7 @@ final class SubscriberFactory extends Factory
 
     public function unsubscribed(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn (array $attributes): array => [
             'unsubscribed_at' => now(),
         ]);
     }

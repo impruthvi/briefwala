@@ -31,7 +31,7 @@ final class ResendWebhookController extends Controller
 
     private function handleBounce(string $email, string $reason): void
     {
-        Subscriber::where('email', $email)
+        Subscriber::query()->where('email', $email)
             ->whereNull('unsubscribed_at')
             ->update([
                 'unsubscribed_at' => now(),

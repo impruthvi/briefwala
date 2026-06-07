@@ -17,19 +17,15 @@ final class VerifyResendWebhook
     {
         $secret = config('services.resend.webhook_secret');
 
-        if (empty($secret)) {
-            abort(500, 'Resend webhook secret not configured.');
-        }
+        abort_if(empty($secret), 500, 'Resend webhook secret not configured.');
 
         $svixId = $request->header('svix-id');
         $svixTimestamp = $request->header('svix-timestamp');
         $svixSignature = $request->header('svix-signature');
 
-        if (! $svixId || ! $svixTimestamp || ! $svixSignature) {
-            abort(400, 'Missing webhook signature headers.');
-        }
+        abort_if(! $svixId || ! $svixTimestamp || ! $svixSignature, 400, 'Missing webhook signature headers.');
 
-        $toSign = "{$svixId}.{$svixTimestamp}.{$request->getContent()}";
+        $toSign = sprintf('%s.%s.%s', $svixId, $svixTimestamp, $request->getContent());
         $secretBytes = base64_decode(str_replace('whsec_', '', $secret));
         $computed = 'v1,'.base64_encode(hash_hmac('sha256', $toSign, $secretBytes, true));
 

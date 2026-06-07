@@ -7,6 +7,7 @@ namespace App\Http\Requests\Subscriber;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Override;
 
 final class StoreSubscriberRequest extends FormRequest
 {
@@ -32,6 +33,7 @@ final class StoreSubscriberRequest extends FormRequest
     /**
      * @return array<string, string>
      */
+    #[Override]
     public function messages(): array
     {
         return [

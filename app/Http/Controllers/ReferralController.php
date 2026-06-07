@@ -12,11 +12,11 @@ final class ReferralController extends Controller
 {
     public function __invoke(Request $request, string $subscriberId): RedirectResponse
     {
-        $exists = Subscriber::where('id', $subscriberId)
+        $exists = Subscriber::query()->where('id', $subscriberId)
             ->whereNotNull('confirmed_at')
             ->exists();
 
-        $response = redirect()->route('home');
+        $response = to_route('home');
 
         if ($exists) {
             $response->withCookie(
