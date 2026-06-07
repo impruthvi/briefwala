@@ -1,5 +1,6 @@
 import { Head, useForm } from '@inertiajs/react';
 import { useState } from 'react';
+import { store } from '@/actions/App/Http/Controllers/SubscriberController';
 
 const NICHES = ['Tech', 'Comedy', 'Finance', 'Fitness', 'Food', 'Lifestyle', 'Gaming', 'Education'] as const;
 const PLATFORMS = ['YouTube', 'Instagram', 'Both'] as const;
@@ -148,7 +149,7 @@ export default function Home() {
     function submit(e: React.FormEvent) {
         e.preventDefault();
         setRateLimited(false);
-        post('/subscribe', {
+        post(store.url(), {
             onSuccess: () => setSubmitted(true),
             onError: (errs) => {
                 if (Object.keys(errs).length === 0) {
