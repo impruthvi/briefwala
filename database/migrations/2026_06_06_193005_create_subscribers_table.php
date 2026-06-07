@@ -28,6 +28,8 @@ return new class extends Migration
             $table->string('bounce_reason', 100)->nullable();
             $table->timestamps();
 
+            $table->index(['confirmed_at', 'unsubscribed_at']);
+
             $table->foreign('referrer_id')
                 ->references('id')
                 ->on('subscribers')

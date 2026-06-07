@@ -68,33 +68,47 @@ final class SendBriefsCommand extends Command
                 continue;
             }
 
+            $subscriberIds = $groupSubscribers->pluck('id')->all();
+            $weekOfStr = $weekOf->toDateString();
+
+            $sentBefore = array_flip(
+                SendLog::query()
+                    ->whereIn('subscriber_id', $subscriberIds)
+                    ->whereDate('week_of', $weekOfStr)
+                    ->where('status', SendStatus::Sent)
+                    ->pluck('subscriber_id')
+                    ->all()
+            );
+
             foreach ($groupSubscribers as $subscriber) {
-                $before = SendLog::query()
-                    ->where('subscriber_id', $subscriber->id)
-                    ->whereDate('week_of', $weekOf->toDateString())
-                    ->where('status', SendStatus::Sent)
-                    ->exists();
-
                 $this->sendBriefToSubscriber->handle($subscriber, $angles, $weekOf);
+            }
 
-                $after = SendLog::query()
-                    ->where('subscriber_id', $subscriber->id)
-                    ->whereDate('week_of', $weekOf->toDateString())
+            $sentAfter = array_flip(
+                SendLog::query()
+                    ->whereIn('subscriber_id', $subscriberIds)
+                    ->whereDate('week_of', $weekOfStr)
                     ->where('status', SendStatus::Sent)
-                    ->exists();
+                    ->pluck('subscriber_id')
+                    ->all()
+            );
 
-                if (! $before && $after) {
+            $failedAfter = array_flip(
+                SendLog::query()
+                    ->whereIn('subscriber_id', $subscriberIds)
+                    ->whereDate('week_of', $weekOfStr)
+                    ->where('status', SendStatus::Failed)
+                    ->pluck('subscriber_id')
+                    ->all()
+            );
+
+            foreach ($groupSubscribers as $subscriber) {
+                $id = $subscriber->id;
+
+                if (! isset($sentBefore[$id]) && isset($sentAfter[$id])) {
                     $totalSent++;
-                } elseif (! $after) {
-                    $failed = SendLog::query()
-                        ->where('subscriber_id', $subscriber->id)
-                        ->whereDate('week_of', $weekOf->toDateString())
-                        ->where('status', SendStatus::Failed)
-                        ->exists();
-
-                    if ($failed) {
-                        $totalFailed++;
-                    }
+                } elseif (! isset($sentAfter[$id]) && isset($failedAfter[$id])) {
+                    $totalFailed++;
                 }
             }
         }

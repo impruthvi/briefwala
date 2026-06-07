@@ -14,4 +14,5 @@ Artisan::command('inspire', function (): void {
 Schedule::command('brief:send')
     ->weeklyOn(0, '22:00')
     ->timezone('Asia/Kolkata')
-    ->withoutOverlapping();
+    ->withoutOverlapping()
+    ->onOneServer();

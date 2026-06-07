@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,12 +12,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Override;
 
+#[Fillable([
+    'email',
+    'niche',
+    'platform',
+    'language',
+    'whatsapp_number',
+    'referrer_id',
+    'confirm_token',
+    'unsubscribe_token',
+    'confirmed_at',
+    'unsubscribed_at',
+    'bounce_reason',
+])]
 final class Subscriber extends Model
 {
     use HasFactory;
     use HasUuids;
-
-    protected $guarded = [];
 
     /** @return BelongsTo<Subscriber, $this> */
     public function referrer(): BelongsTo

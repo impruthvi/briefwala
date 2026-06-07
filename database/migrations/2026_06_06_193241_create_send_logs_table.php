@@ -25,6 +25,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->unique(['subscriber_id', 'week_of']);
+            $table->index('status');
         });
     }
 
