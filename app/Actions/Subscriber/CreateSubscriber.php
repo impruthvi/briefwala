@@ -12,9 +12,10 @@ use Illuminate\Support\Str;
 
 final readonly class CreateSubscriber
 {
+    /** @param array<string, mixed> $data */
     public function handle(array $data): Subscriber
     {
-        $subscriber = Subscriber::create([
+        $subscriber = Subscriber::query()->create([
             'email' => $data['email'],
             'niche' => $data['niche'],
             'platform' => $data['platform'],
