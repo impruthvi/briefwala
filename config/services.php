@@ -25,6 +25,14 @@ return [
         'webhook_secret' => env('RESEND_WEBHOOK_SECRET'),
     ],
 
+    'serpapi' => [
+        'key' => env('SERPAPI_KEY'),
+    ],
+
+    'youtube' => [
+        'key' => env('YOUTUBE_API_KEY'),
+    ],
+
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
