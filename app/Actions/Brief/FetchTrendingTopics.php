@@ -37,6 +37,7 @@ final readonly class FetchTrendingTopics
 
         $response = Http::retry(3, 200)
             ->timeout(10)
+            ->connectTimeout(5)
             ->get('https://serpapi.com/search', [
                 'engine' => 'google_trends',
                 'q' => $niche,
@@ -76,6 +77,7 @@ final readonly class FetchTrendingTopics
 
         $response = Http::retry(3, 200)
             ->timeout(10)
+            ->connectTimeout(5)
             ->get('https://www.googleapis.com/youtube/v3/search', [
                 'part' => 'snippet',
                 'q' => $niche,
