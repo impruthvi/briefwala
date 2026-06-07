@@ -30,6 +30,7 @@ final class ConfirmSubscription extends Mailable implements ShouldQueue
     {
         return new Content(
             view: 'emails.confirm-subscription',
+            text: 'emails.confirm-subscription-text',
             with: [
                 'confirmUrl' => route('confirm', $this->subscriber->confirm_token),
                 'subscriber' => $this->subscriber,

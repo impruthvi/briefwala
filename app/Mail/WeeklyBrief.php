@@ -37,6 +37,7 @@ final class WeeklyBrief extends Mailable implements ShouldQueue
     {
         return new Content(
             view: 'emails.weekly-brief',
+            text: 'emails.weekly-brief-text',
             with: [
                 'subscriber' => $this->subscriber,
                 'angles' => $this->angles,
