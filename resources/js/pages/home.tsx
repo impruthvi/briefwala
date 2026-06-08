@@ -1,4 +1,4 @@
-import { Head, useForm } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 import { store } from '@/actions/App/Http/Controllers/SubscriberController';
 
@@ -269,7 +269,10 @@ export default function Home() {
                             </form>
 
                             <p className="mt-[26px] text-[12.5px] font-medium tracking-[0.005em] text-[#76746c]">
-                                Free. No spam. Unsubscribe any time.
+                                Free. No spam. Unsubscribe any time.{' '}
+                                <Link href="/about" className="underline underline-offset-2 hover:text-[#1b1b18]">
+                                    Learn more
+                                </Link>
                             </p>
                         </>
                     )}
